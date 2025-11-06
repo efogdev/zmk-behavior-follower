@@ -9,11 +9,6 @@
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static int on_follower_binding_pressed(struct zmk_behavior_binding *binding, struct zmk_behavior_binding_event event) {
-    LOG_WRN("follower binding pressed");
-    LOG_WRN("current layer: %d", event.layer);
-    LOG_WRN("param1: %d", binding->param1);
-    LOG_WRN("param2: %d", binding->param2);
-
     const zmk_keymap_layer_index_t layer_idx = zmk_keymap_highest_layer_active();
     const zmk_keymap_layer_id_t layer_id = zmk_keymap_layer_index_to_id(layer_idx);
 
