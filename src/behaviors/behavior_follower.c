@@ -8,30 +8,34 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-static int on_follower_binding_pressed(struct zmk_behavior_binding *binding, struct zmk_behavior_binding_event event) {
+static void invoke(const struct zmk_behavior_binding *binding, const struct zmk_behavior_binding_event event, const bool pressed) {
     const zmk_keymap_layer_index_t layer_idx = zmk_keymap_highest_layer_active();
     const zmk_keymap_layer_id_t layer_id = zmk_keymap_layer_index_to_id(layer_idx);
 
     const struct zmk_behavior_binding *to_invoke = zmk_keymap_get_layer_binding_at_idx(layer_id, binding->param1);
     const struct zmk_behavior_binding_event new_event = {
-        .layer = layer_id,
+        .layer = event.layer,
         .position = binding->param1,
-        .timestamp = k_uptime_get(),
+        .timestamp = event.timestamp,
     #if IS_ENABLED(CONFIG_ZMK_SPLIT)
         .source = ZMK_POSITION_STATE_CHANGE_SOURCE_LOCAL,
     #endif
     };
 
-    zmk_behavior_invoke_binding(to_invoke, new_event, true);
-    zmk_behavior_invoke_binding(to_invoke, new_event, false);
+    zmk_behavior_invoke_binding(to_invoke, new_event, pressed);
+}
+
+static int on_follower_binding_pressed(struct zmk_behavior_binding *binding, struct zmk_behavior_binding_event event) {
+    invoke(binding, event, true);
     return ZMK_BEHAVIOR_TRANSPARENT;
 }
 
 static int on_follower_binding_released(struct zmk_behavior_binding *binding, struct zmk_behavior_binding_event event) {
+    invoke(binding, event, false);
     return ZMK_BEHAVIOR_TRANSPARENT;
 }
 
-static int behavior_follower_init(struct device *dev) {
+static int behavior_follower_init(const struct device *dev) {
     return 0;
 }
 
