@@ -1,0 +1,7 @@
+config ZMK_BEHAVIOR_TRIGGER_ON_BOOT_MAX_BEHAVIORS
+    int "Maximum toggle-on-boot behaviors"
+    default 4
+
+config ZMK_BEHAVIOR_TRIGGER_ON_BOOT_DELAY_MS
+    int "Delay for the autostarted behavior"
+    default 50

@@ -1,0 +1,8 @@
+/ {
+	behaviors {
+		/omit-if-no-ref/ flw: behavior-follower {
+			compatible = "zmk,behavior-follower";
+			#binding-cells = <2>;
+		};
+	};
+};

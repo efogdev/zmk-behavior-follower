@@ -1,0 +1,3 @@
+description: Trigger the behavior mapped to a certain position
+compatible: "zmk,behavior-follower"
+include: two_param.yaml
